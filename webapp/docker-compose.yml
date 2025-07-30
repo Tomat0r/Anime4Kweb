@@ -1,0 +1,45 @@
+services:
+  anime4k-web:
+    build: .
+    container_name: anime4k-webapp
+    ports:
+      - "5000:5000"  # Flask app
+      - "8000:8000"  # Simple server (alternative)
+    volumes:
+      # Optional: persist uploads and outputs
+      - ./uploads:/app/uploads
+      - ./outputs:/app/outputs
+    environment:
+      - FLASK_ENV=production
+    restart: unless-stopped
+    # Health check using Python instead of curl
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/settings')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Alternative service for simple server
+  anime4k-simple:
+    build: .
+    container_name: anime4k-simple-server
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./uploads:/app/uploads
+      - ./outputs:/app/outputs
+    command: ["python", "simple_server.py"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/settings')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    profiles:
+      - simple  # Only start with --profile simple
+
+networks:
+  default:
+    name: anime4k-network
