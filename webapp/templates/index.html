@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime4K Web UI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎌 Anime4K Web UI</h1>
+            <p>High-quality anime upscaling in your browser</p>
+        </header>
+
+        <main>
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div id="dropZone" class="drop-zone">
+                    <div class="drop-zone-content">
+                        <div class="upload-icon">📁</div>
+                        <h3>Drag and drop your images here</h3>
+                        <p>or</p>
+                        <button type="button" class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                            Choose Files
+                        </button>
+                        <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+                        <p class="file-info">Supported formats: PNG, JPG, JPEG, BMP, TIFF, WebP</p>
+                    </div>
+                </div>
+                
+                <div id="fileList" class="file-list" style="display: none;">
+                    <h4>Selected Files:</h4>
+                    <ul id="selectedFiles"></ul>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section class="settings-section">
+                <h3>🔧 Processing Settings</h3>
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <label for="scaleFactorSelect">Scale Factor:</label>
+                        <select id="scaleFactorSelect" class="form-control">
+                            <option value="1.5">1.5x</option>
+                            <option value="2" selected>2x</option>
+                            <option value="3">3x</option>
+                            <option value="4">4x</option>
+                        </select>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <label for="algorithmSelect">Algorithm:</label>
+                        <select id="algorithmSelect" class="form-control">
+                            <option value="Simple" selected>Simple (Fast)</option>
+                            <option value="CNN_S" disabled>CNN Small (Coming Soon)</option>
+                            <option value="CNN_M" disabled>CNN Medium (Coming Soon)</option>
+                            <option value="CNN_L" disabled>CNN Large (Coming Soon)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Process Section -->
+            <section class="process-section">
+                <button id="processBtn" class="btn btn-success" disabled>
+                    🚀 Start Processing
+                </button>
+            </section>
+
+            <!-- Progress Section -->
+            <section id="progressSection" class="progress-section" style="display: none;">
+                <h3>📊 Processing Progress</h3>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div class="progress-info">
+                    <p id="progressText">Initializing...</p>
+                    <p id="currentFile"></p>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section id="resultsSection" class="results-section" style="display: none;">
+                <h3>✅ Processing Complete</h3>
+                <p id="resultsText"></p>
+                <button id="downloadBtn" class="btn btn-primary">
+                    💾 Download Results
+                </button>
+                <button id="resetBtn" class="btn btn-secondary">
+                    🔄 Process More Files
+                </button>
+            </section>
+
+            <!-- Error Section -->
+            <section id="errorSection" class="error-section" style="display: none;">
+                <h3>❌ Error</h3>
+                <p id="errorText"></p>
+                <button id="retryBtn" class="btn btn-secondary">
+                    🔄 Try Again
+                </button>
+            </section>
+        </main>
+
+        <footer>
+            <p>
+                Powered by <a href="https://github.com/bloc97/Anime4K" target="_blank">Anime4K</a> 
+                | <a href="https://github.com/Tomat0r/Anime4Kweb" target="_blank">Source Code</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
